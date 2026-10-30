@@ -33,6 +33,8 @@ static void fpsimd_save_state(__uptr ptr)
 	__u32 fpcr, fpsr;
 
 	__asm__ __volatile__(
+		".arch_extension fp\n"
+		".arch_extension simd\n"
 		"mrs	%0, fpcr\n"
 		"mrs	%1, fpsr\n"
 		"stp	q0,  q1,  [%2, #16 *  0]\n"
@@ -65,6 +67,8 @@ static void fpsimd_restore_state(__uptr ptr)
 	fpsr = ((struct fpsimd_state *)ptr)->fpsr;
 
 	__asm__ __volatile__(
+		".arch_extension fp\n"
+		".arch_extension simd\n"
 		"ldp	q0,  q1,  [%2, #16 *  0]\n"
 		"ldp	q2,  q3,  [%2, #16 *  2]\n"
 		"ldp	q4,  q5,  [%2, #16 *  4]\n"
